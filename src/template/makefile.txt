@@ -1,0 +1,61 @@
+# define the name of application
+APPNAME := Example
+
+# define the cpp compiler to use
+CXX := g++
+
+# define bin directory
+BIN := bin
+
+# define include directory
+INC := include
+
+# define lib directory
+LIB := lib
+
+# define source directory
+SRC := src
+
+# define object directory
+OBJ := obj
+
+VPATH := $(SRC) $(INC) $(LIB)
+
+# Generate extension depending on the operating system
+ifeq ($(OS),Windows_NT)
+	TARGET := $(BIN)/$(APPNAME).exe
+else
+	TARGET := $(BIN)/$(APPNAME)
+endif
+
+# define the color of the console text
+COLOUR_GREEN = \033[0;32m
+COLOUR_RED   = \033[0;31m
+COLOUR_BLUE  = \033[0;34m
+COLOUR_END   = \033[0m
+
+OBJS := $(patsubst %.cpp, $(OBJ)/%.o, $(notdir $(wildcard $(SRC)/*.cpp) $(wildcard $(LIB)/*.cpp)))
+
+# Generate object files
+$(OBJ)/%.o: %.cpp
+	@mkdir -p obj
+	@echo -e "$(COLOUR_BLUE)Generating object: $(@F)$(COLOUR_END)" 
+	@$(CXX) -I $(INC) -c $< -o $@
+
+# Generate executable
+$(TARGET): $(OBJS)
+	@mkdir -p $(BIN)
+	@echo -e "$(COLOUR_GREEN)Generating executable: $(@F)$(COLOUR_END)" 
+	@$(CXX) $(OBJS) -o $@ 
+
+.PHONY: run
+run:
+	@$(TARGET)
+
+.PHONY: clean
+clean:
+	@rm -rf $(OBJ)/*.o $(BIN)/$(APPNAME) $(BIN)/$(APPNAME).exe
+	
+.PHONY:	delete
+delete:
+	@rm -rf $(OBJ) $(BIN)
