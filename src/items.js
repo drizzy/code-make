@@ -14,10 +14,22 @@ let eventEmitter = events.EventEmitter;
 let event = new eventEmitter();
 
 /* Getting the path of the workspace folder. */
-const folderPath = workspace.workspaceFolders[0].uri
-      .toString()
-      .split(':')[1];
+let folderPath;
+if (!workspace.workspaceFolders) {
+  folderPath = workspace.rootPath;
+} 
+else {
 
+  let root;
+  if (workspace.workspaceFolders.length === 1) {
+    root = workspace.workspaceFolders[0];
+  } 
+  else {
+    root = workspace.getWorkspaceFolder(resource);
+  }
+
+  folderPath = root.uri.fsPath;
+}
 
 /* Creating a new status bar item for each of the commands. */
 let items = {

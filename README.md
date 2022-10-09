@@ -10,10 +10,10 @@ Create projects in c++ Compile and run the program directly from the vscode inte
 
 ## Requirements
 
-* You have to have `make` installed on your computer
-* If you are on linux you must install `gcc `
-* If you are on window you must install `mingw`
-* If you are on mac os you must install `clang`
+* You have to have `make` installed on your computer ([see instructions](docs/SETUP.md#make)) 
+* If you are on linux you must install `gcc` ([see instructions](docs/ETUP.md#linux))
+* If you are on window you must install `mingw` ([see instructions](docs/SETUP.md#windows))
+* If you are on mac os you must install `clang` ([see instructions](docs/SETUP.md#mac))
 
 ## How to use
 

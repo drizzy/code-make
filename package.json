@@ -2,7 +2,7 @@
   "name": "code-make",
   "displayName": "Code Make",
   "description": "Creates c++ projects with configured Makefile",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "drizzy",
   "license": "MIT",
   "icon": "icons/logo.png",

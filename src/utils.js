@@ -39,7 +39,7 @@ const struct = async () => {
 
     if (!fs.existsSync(path.join(folderPath, 'src'))){
 
-      fs.mkdirSync(path.join(folderPath, 'src'), err => {
+      fs.mkdirSync(path.join(folderPath, 'src'), {recursive: true}, err => {
         if (err) {
           console.error(err)
           window.showErrorMessage('Failed to create folder')
@@ -50,7 +50,7 @@ const struct = async () => {
 
     if(!fs.existsSync(path.join(folderPath, 'include'))){
 
-      fs.mkdirSync(path.join(folderPath, 'include'), err => {
+      fs.mkdirSync(path.join(folderPath, 'include'), {recursive: true}, err => {
         if (err) {
           console.error(err)
           window.showErrorMessage('Failed to create folder')
@@ -60,7 +60,7 @@ const struct = async () => {
 
     if(!fs.existsSync(path.join(folderPath, 'lib'))){
 
-      fs.mkdirSync(path.join(folderPath, 'lib'), err => {
+      fs.mkdirSync(path.join(folderPath, 'lib'), {recursive: true}, err => {
         if (err) {
           console.error(err)
           window.showErrorMessage('Failed to create folder')
