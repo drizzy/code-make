@@ -1,8 +1,8 @@
 # Code Make
 
-[![Marketplace Version](https://vsmarketplacebadge.apphb.com/version-short/drizzy.code-make.svg)](https://marketplace.visualstudio.com/items?itemName=drizzy.code-make)
-[![Downloads](https://vsmarketplacebadge.apphb.com/downloads-short/drizzy.code-make.svg)](https://marketplace.visualstudio.com/items?itemName=drizzy.code-make)
-[![Rating](https://vsmarketplacebadge.apphb.com/rating-short/drizzy.code-make.svg)](https://marketplace.visualstudio.com/items?itemName=drizzy.code-make)
+[![Marketplace Version](https://vsmarketplacebadges.dev/version-short/drizzy.code-make.svg)](https://marketplace.visualstudio.com/items?itemName=drizzy.code-make)
+[![Downloads](https://vsmarketplacebadges.dev/downloads-short/drizzy.code-make.svg)](https://marketplace.visualstudio.com/items?itemName=drizzy.code-make)
+[![Rating](https://vsmarketplacebadges.dev/rating-short/drizzy.code-make.svg)](https://marketplace.visualstudio.com/items?itemName=drizzy.code-make)
 
 ## Features
 
