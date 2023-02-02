@@ -1,5 +1,11 @@
 # Change Log
 
+### [v1.0.2](https://github.com/drizzy/vscode-code-make/releases/tag/v1.0.2)
+
+> 01 February 2023
+
+- Add flags in makefile
+
 ### [v1.0.1](https://github.com/drizzy/vscode-code-make/releases/tag/v1.0.1)
 
 > 08 October 2022

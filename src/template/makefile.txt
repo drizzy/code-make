@@ -4,6 +4,9 @@ APPNAME := Example
 # define the cpp compiler to use
 CXX := g++
 
+# define the FLAGS
+FLAGS := -Wall
+
 # define bin directory
 BIN := bin
 
@@ -69,7 +72,7 @@ else
 	@mkdir -p $(BIN)
 endif
 	@echo $(CYAN)Creating executable: $(GREEN)$(@F)$(RESET)
-	@$(CXX) $(OBJS) -o $@
+	@$(CXX) $(OBJS) -o $@ $(FLAGS)
 
 .PHONY: run
 run:
