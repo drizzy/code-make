@@ -18,7 +18,7 @@
 
 - Modification of the `Makefile` for better compilation
 
-### [v1.1.0](https://github.com/drizzy/vscode-code-make/releases/tag/v1.0.0)
+### [v1.0.0](https://github.com/drizzy/vscode-code-make/releases/tag/v1.0.0)
 
 > 04 October 2022
 
