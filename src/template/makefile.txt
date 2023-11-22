@@ -5,7 +5,9 @@ APPNAME := Example
 CXX := g++
 
 # define the FLAGS
-FLAGS := -Wall
+CFLAGS := -Wall $(shell pkg-config gtkmm-3.0 --cflags)
+
+LFLAGS := $(shell pkg-config gtkmm-3.0 --libs)
 
 # define bin directory
 BIN := bin
@@ -62,7 +64,7 @@ else
 	@mkdir -p $(OBJ)
 endif
 	@echo $(CYAN)Compiling: $(RED)$(@F)$(RESET)
-	@$(CXX) -I $(INC) -c $< -o $@
+	@$(CXX) -I $(INC) -c $(CFLAGS) $< -o $@
 
 # Generate executable
 $(TARGET): $(OBJS)
@@ -72,7 +74,7 @@ else
 	@mkdir -p $(BIN)
 endif
 	@echo $(CYAN)Creating executable: $(GREEN)$(@F)$(RESET)
-	@$(CXX) $(OBJS) -o $@ $(FLAGS)
+	@$(CXX) $(LFLAGS) $(OBJS) -o $@
 
 .PHONY: run
 run:
