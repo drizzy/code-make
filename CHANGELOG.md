@@ -1,5 +1,13 @@
 # Change Log
 
+### [v1.1.0](https://github.com/drizzy/vscode-code-make/releases/tag/v1.1.0)
+
+> 22 November 2023
+
+### Features
+
+- Makefile change to support libraries like gkmm.h
+
 ### [v1.0.2](https://github.com/drizzy/vscode-code-make/releases/tag/v1.0.2)
 
 > 01 February 2023
