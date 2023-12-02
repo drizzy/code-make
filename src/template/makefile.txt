@@ -5,9 +5,9 @@ APPNAME := Example
 CXX := g++
 
 # define the FLAGS
-CFLAGS := -Wall $(shell pkg-config gtkmm-3.0 --cflags)
+CFLAGS := -Wall $(shell pkg-config gtkmm-3.0 sdl2 --cflags)
 
-LFLAGS := $(shell pkg-config gtkmm-3.0 --libs)
+LFLAGS := $(shell pkg-config gtkmm-3.0 sdl2 --libs) -lSDL2_image
 
 # define bin directory
 BIN := bin

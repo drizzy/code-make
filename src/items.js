@@ -1,35 +1,12 @@
 const vscode    = require('vscode');
 const os        = require('os');
 const fs        = require('fs');
-const events    = require('events');
 const path      = require('path');
 const workspace = vscode.workspace;
 const window    = vscode.window;
 const commands  = vscode.commands;
 
-/* Creating a new event emitter. */
-let eventEmitter = events.EventEmitter;
-
-/* Creating a new event emitter. */
-let event = new eventEmitter();
-
-/* Getting the path of the workspace folder. */
-let folderPath;
-if (!workspace.workspaceFolders) {
-  folderPath = workspace.rootPath;
-} 
-else {
-
-  let root;
-  if (workspace.workspaceFolders.length === 1) {
-    root = workspace.workspaceFolders[0];
-  } 
-  else {
-    root = workspace.getWorkspaceFolder(resource);
-  }
-
-  folderPath = root.uri.fsPath;
-}
+let folderPath = workspace.workspaceFolders ? workspace.workspaceFolders[0].uri.fsPath : workspace.rootPath;
 
 /* Creating a new status bar item for each of the commands. */
 let items = {
@@ -45,6 +22,12 @@ let items = {
  * It updates the status bar items based on the current workspace
  */
 let updateStatusBar = function () {
+
+  const srcPath = path.join(folderPath, 'src');
+  const includePath = path.join(folderPath, 'include');
+  const makefilePath = path.join(folderPath, 'Makefile');
+
+  const isProjectValid = fs.existsSync(srcPath) && fs.existsSync(includePath) && fs.existsSync(makefilePath);
 
   items.work.text = `$(folder-active) ${workspace.name}`;
   items.work.command = null;
@@ -70,7 +53,7 @@ let updateStatusBar = function () {
   items.destroy.command = 'code-make-destroy.run';
   items.destroy.color = '#ED836E';
 
-  if (fs.existsSync(path.join(folderPath, 'src')) && fs.existsSync(path.join(folderPath, 'include')) && fs.existsSync(path.join(folderPath, 'Makefile'))){
+  if (isProjectValid){
 
     items.create.hide();
 
@@ -103,15 +86,12 @@ let updateStatusBar = function () {
 
 }
 
-/* Listening for an event called 'update' and when it is triggered it will run the function
-`updateStatusBar`. */
-event.on('update', updateStatusBar);
+let watcher = vscode.workspace.createFileSystemWatcher('**/*', false, false, false);
+watcher.onDidChange(updateStatusBar);
+watcher.onDidCreate(updateStatusBar);
+watcher.onDidDelete(updateStatusBar);
 
-/* Updating the status bar every 500 milliseconds. */
-setInterval( () => {
-  event.emit('update', Date.now());
-  },500
-);
+updateStatusBar();
 
 module.exports = {
   os,

@@ -22,17 +22,6 @@ Create C++ projects, compile, and run programs directly from the VSCode interfac
 After installing the extension, click on the `+` symbol in the bottom left corner to create a C++ project structure. Use the gear wheel to compile, the play symbol to run the program, the trash can to delete files from the `bin` and `obj` directories, and 'x' to delete both directories.
 
 
-## Keybindings
-
-| Linux         | Windows       | Mac           | Description         |
-| ------------- | ------------- | ------------- | ------------------- |
-| ctrl+alt+f    | ctrl+alt+f    | ctrl+alt+f    | Make Create Folder  |
-| ctrl+alt+b    | ctrl+alt+b    | ctrl+alt+b    | Make Build Folder   |
-| ctrl+alt+r    | ctrl+alt+r    | ctrl+alt+r    | Make Run Folder     |
-| ctrl+alt+c    | ctrl+alt+c    | ctrl+alt+c    | Make Clean Folder   |
-| ctrl+alt+d    | ctrl+alt+d    | ctrl+alt+d    | Make Delete Folder  |
-
-
 ## Release Notes
 
 Refer to [CHANGELOG](CHANGELOG.md) for detailed release notes.
