@@ -1,8 +1,8 @@
 {
   "name": "code-make",
   "displayName": "Code Make",
-  "description": "Creates c++ projects with configured Makefile",
-  "version": "1.1.0",
+  "description": "Code Make is designed to make it easy to create and compile C++ projects using the Make tool.",
+  "version": "1.2.0",
   "publisher": "drizzy",
   "license": "MIT",
   "icon": "icons/logo.png",
@@ -44,57 +44,6 @@
     "onCommand:code-make-destroy.run"
   ],
   "main": "./extension.js",
-  "contributes": {
-    "commands": [
-      {
-        "command": "code-make.run",
-        "title": "Make Run Folder"
-      },
-      {
-        "command": "code-make-create.run",
-        "title": "Make Create Folder"
-      },
-      {
-        "command": "code-make-build.run",
-        "title": "Make Build Folder"
-      },
-      {
-        "command": "code-make-clean.run",
-        "title": "Make Clean Folder"
-      },
-      {
-        "command": "code-make-destroy.run",
-        "title": "Make Delete Folder"
-      }
-    ],
-    "keybindings": [
-      {
-        "command": "code-make.run",
-        "key": "ctrl+alt+r",
-        "mac": "ctrl+alt+r"
-      },
-      {
-        "command": "code-make-create.run",
-        "key": "ctrl+alt+f",
-        "mac": "ctrl+alt+f"
-      },
-      {
-        "command": "code-make-build.run",
-        "key": "ctrl+alt+b",
-        "mac": "ctrl+alt+b"
-      },
-      {
-        "command": "code-make-clean.run",
-        "key": "ctrl+alt+c",
-        "mac": "ctrl+alt+c"
-      },
-      {
-        "command": "code-make-destroy.run",
-        "key": "ctrl+alt+d",
-        "mac": "ctrl+alt+d"
-      }
-    ]
-  },
   "scripts": {
     "lint": "eslint .",
     "pretest": "npm run lint",
