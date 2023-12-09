@@ -109,8 +109,6 @@ export class CodeManage {
   private updateStatusBar(){
 
     try {
-
-      vscode.window.showInformationMessage('Update executed!');
   
       const srcPath: string = join(this._folderPath, 'src');
       const maincpp: string = join(this._folderPath, 'src', 'main.cpp');
