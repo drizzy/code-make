@@ -11,11 +11,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/drizzy/vscode-code-make.git"
+    "url": "https://github.com/drizzy/code-make.git"
   },
-  "homepage": "https://github.com/drizzy/vscode-code-make/README.md",
+  "homepage": "https://github.com/drizzy/code-make/README.md",
   "bugs": {
-    "url": "https://github.com/drizzy/vscode-code-make/issues"
+    "url": "https://github.com/drizzy/code-make/issues"
   },
   "author": {
     "name": "Drizzy",

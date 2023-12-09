@@ -1,6 +1,6 @@
 # Change Log
 
-### [v1.2.0](https://github.com/drizzy/vscode-code-make/releases/tag/v1.2.0)
+### [v1.2.0](https://github.com/drizzy/code-make/releases/tag/v1.2.0)
 
 > 02 December 2023
 
@@ -10,7 +10,7 @@
 - Commands and key assignments removed
 - Flags for compiling programs with SDL2 added to Makefile
 
-### [v1.1.0](https://github.com/drizzy/vscode-code-make/releases/tag/v1.1.0)
+### [v1.1.0](https://github.com/drizzy/code-make/releases/tag/v1.1.0)
 
 > 22 November 2023
 
@@ -18,7 +18,7 @@
 
 - Makefile change to support libraries like gkmm.h
 
-### [v1.0.2](https://github.com/drizzy/vscode-code-make/releases/tag/v1.0.2)
+### [v1.0.2](https://github.com/drizzy/code-make/releases/tag/v1.0.2)
 
 > 01 February 2023
 
@@ -26,7 +26,7 @@
 
 - Add flags in makefile
 
-### [v1.0.1](https://github.com/drizzy/vscode-code-make/releases/tag/v1.0.1)
+### [v1.0.1](https://github.com/drizzy/code-make/releases/tag/v1.0.1)
 
 > 08 October 2022
 
@@ -40,7 +40,7 @@
 
 - Modification of the `Makefile` for better compilation
 
-### [v1.0.0](https://github.com/drizzy/vscode-code-make/releases/tag/v1.0.0)
+### [v1.0.0](https://github.com/drizzy/code-make/releases/tag/v1.0.0)
 
 > 04 October 2022
 
