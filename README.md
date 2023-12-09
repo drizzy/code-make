@@ -4,7 +4,6 @@
 [![Downloads](https://vsmarketplacebadges.dev/downloads-short/drizzy.code-make.svg)](https://marketplace.visualstudio.com/items?itemName=drizzy.code-make)
 [![Rating](https://vsmarketplacebadges.dev/rating-short/drizzy.code-make.svg)](https://marketplace.visualstudio.com/items?itemName=drizzy.code-make)
 
-
 ## Features
 
 Create C++ projects, compile, and run programs directly from the VSCode interface with a simple click.
@@ -16,11 +15,9 @@ Create C++ projects, compile, and run programs directly from the VSCode interfac
 - For Windows, install `mingw`. [See instructions](docs/SETUP.md#windows)
 - For macOS, install `clang`. [See instructions](docs/SETUP.md#mac)
 
-
 ## How to use
 
-After installing the extension, click on the `+` symbol in the bottom left corner to create a C++ project structure. Use the gear wheel to compile, the play symbol to run the program, the trash can to delete files from the `bin` and `obj` directories, and 'x' to delete both directories.
-
+After installing the extension, click on the heart symbol 🩷 located in the lower right corner to create a C++ project structure, Use the play symbol to compile and run the program.
 
 ## Release Notes
 

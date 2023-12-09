@@ -79,7 +79,6 @@ gcc --version
 
 If it's not installed, follow the instructions for your distribution:
 
-
 ### Ubuntu
 
 ```bash
