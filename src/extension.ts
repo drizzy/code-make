@@ -9,11 +9,11 @@ export function activate(context: vscode.ExtensionContext) {
 
 	const manager = new CodeManage();
 	
-	const create = vscode.commands.registerCommand('code-make-create.run', () => {
+	const create: vscode.Disposable = vscode.commands.registerCommand('code-make-create.run', () => {
 		manager.create();
 	});
 
-	const start = vscode.commands.registerCommand('code-make-start.run', () => {
+	const start: vscode.Disposable = vscode.commands.registerCommand('code-make-start.run', () => {
 		manager.start();
 	});
 
