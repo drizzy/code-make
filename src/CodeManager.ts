@@ -2,15 +2,15 @@ import * as vscode from 'vscode';
 import { StatusBarItems } from './interface';
 import { join, resolve } from 'path';
 import { platform } from 'os';
-import { existsSync, mkdirSync, readdirSync, writeFile, statSync } from 'fs';
-import { gitignore, maincpp, makefile, readme } from './templates'
+import { existsSync, mkdirSync, readdirSync, writeFile, statSync, Stats } from 'fs';
+import { gitignore, maincpp, makefile, readme } from './templates';
 
 export class CodeManage {
 
   private _terminal: vscode.Terminal;
   private _folderPath: string;
   private _items: StatusBarItems;
-  private _watcher: vscode.FileSystemWatcher | null
+  private _watcher: vscode.FileSystemWatcher | null;
 
   constructor(){
 
@@ -22,7 +22,7 @@ export class CodeManage {
     this._items = {
       create: vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right),
       start:  vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right),
-    }
+    };
     this._watcher = null;
     this.setupFileSystemWatcher();
     this.updateStatusBar();
@@ -35,13 +35,13 @@ export class CodeManage {
     
     try {
     
-      const binStats = statSync(binPath);
+      const binStats: Stats = statSync(binPath);
 
       if (!binStats.isDirectory()) {
         this.build();
       } else {
-        const files = readdirSync(binPath);
-        if (files.length == 0) {
+        const files: string[] = readdirSync(binPath);
+        if (files.length === 0) {
           this.build();
         } else {
           this.build();
@@ -76,7 +76,7 @@ export class CodeManage {
       'tests'
     ];
   
-    folders.forEach((folder) => this.createFolder(this._folderPath, folder));
+    folders.forEach((folder: string) => this.createFolder(this._folderPath, folder));
   
     this.createFile(join(this._folderPath, 'src', 'main.cpp'), maincpp);
     this.createFile(join(this._folderPath, '.gitignore'), gitignore);
@@ -153,7 +153,7 @@ export class CodeManage {
       this._terminal.sendText(`${command}`);
   
     } catch (e: any) {
-      vscode.window.showErrorMessage(e);
+      vscode.window.showErrorMessage(e.message || e.toString());
     }
 
   }
@@ -175,12 +175,11 @@ export class CodeManage {
   private createFile(filePath: string, templatePath: string) {
 
     if(!existsSync(filePath)){
-      writeFile(filePath, templatePath, 'utf8', (err) => {
+      writeFile(filePath, templatePath, 'utf8', (err: NodeJS.ErrnoException | null) => {
         if(err){
-          console.error(err)
           vscode.window.showErrorMessage('Failed to create file');
         }
-      })
+      });
     }
     
   }
