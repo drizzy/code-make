@@ -1,5 +1,18 @@
 # Change Log
 
+### [v2.0.0](https://github.com/drizzy/code-make/releases/tag/v2.0.0)
+
+> 25 December 2023
+
+# Features
+
+- Project migrated to TypeScript. 
+- A more complete structure for the development of your programs. 
+- Icons are now located in the bottom right corner. 
+- The icon for creating a C++ project is now a heart. 
+- The Play icon compiles and runs the program. 
+- Faster when creating and compiling your projects.
+
 ### [v1.2.0](https://github.com/drizzy/code-make/releases/tag/v1.2.0)
 
 > 02 December 2023
