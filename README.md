@@ -10,10 +10,10 @@ Create C++ projects, compile, and run programs directly from the VSCode interfac
 
 ## Requirements
 
-- You must have `make` installed on your computer. [See instructions](docs/SETUP.md#make)
-- For Linux, install `gcc`. [See instructions](docs/SETUP.md#linux)
-- For Windows, install `mingw`. [See instructions](docs/SETUP.md#windows)
-- For macOS, install `clang`. [See instructions](docs/SETUP.md#mac)
+- You must have `make` installed on your computer. [See instructions](docs/SETUP.md#install-make)
+- For Windows, install `mingw`. [See instructions](docs/SETUP.md#windows-1)
+- For Linux, install `gcc`. [See instructions](docs/SETUP.md#gnulinux-1)
+- For macOS, install `clang or gcc`. [See instructions](docs/SETUP.md#macos-1)
 
 ## How to use
 
