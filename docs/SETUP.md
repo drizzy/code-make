@@ -40,9 +40,15 @@ sudo pacman -Syu
 sudo pacman -S make
 ```
 
-## Mac
+## macOS
 
-If you're on macOS and have [Homebrew](https://docs.brew.sh/Installation) installed, you can easily install make with the following command:
+You can install `make` through [Homebrew](https://docs.brew.sh/Installation), a popular package management system for macOS. If you don't have Homebrew installed yet, you can do so with the following command:
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+After installing Homebrew, use the following command to install make:
 
 ```bash
 brew install make
@@ -52,7 +58,7 @@ brew install make
 
 ## Windows
 
-To install gcc on Windows, follow these steps:
+To install `gcc` on Windows, follow these steps:
 
 Download [ Mingw-w64](https://sourceforge.net/projects/mingw/files/Installer/mingw-get-setup.exe/download " Mingw-w64")  and launch the installer.
 
@@ -84,7 +90,6 @@ If it's not installed, follow the instructions for your distribution:
 ```bash
 sudo apt update
 sudo apt install build-essential
-
 ```
 
 ### Arch Linux
@@ -92,22 +97,47 @@ sudo apt install build-essential
 ```bash
 sudo pacman -Syu
 sudo pacman -S gcc
-
 ```
 
-## Mac
+## macOS
 
-Ensure that Clang is installed by checking its version:
+Ensure that either clang or gcc is installed by checking their versions
 
 ```bash
 clang --version
+g++ --version
 ```
 
-If it's not installed, open "Terminal" and run the command:
+If neither is installed, open "Terminal" and run the following command:
 
 ```bash
 xcode-select --install
 ```
-In the window that pops up, click "Install" and agree to the Terms of Service. Once the installation is complete, the command line utilities should be set up properly.
+In the window that appears, click "Install" and agree to the Terms of Service. Once the installation is complete, the command line utilities should be set up properly.
+
+This ensures that clang is installed on your system.
+
+You can then install `gcc` through [Homebrew](https://docs.brew.sh/Installation), a popular package management system for macOS. If you don't have Homebrew installed yet, you can do so with the following command:
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+After installing Homebrew, use the following command to install g++:
+
+```bash
+brew install gcc
+```
+
+This will install the latest version of gcc, which includes the C++ (g++) compiler.
+
+Verify that both compilers are installed correctly by running:
+
+```bash
+clang --version
+g++ --version
+```
+
+If you use Clang to compile your files, modify your Makefile to use it instead of c++.
 
 Refer to the specific instructions for your operating system to install make and gcc successfully.
