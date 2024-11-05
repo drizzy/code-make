@@ -2,7 +2,7 @@
   "name": "code-make",
   "displayName": "Code Make",
   "description": "Code Make is designed to make it easy to create and compile C++ projects using the Make tool.",
-  "version": "2.0.0",
+  "version": "2.2.0",
   "publisher": "drizzy",
   "license": "MIT",
   "icon": "icons/logo.png",
@@ -13,7 +13,7 @@
     "type": "git",
     "url": "https://github.com/drizzy/code-make.git"
   },
-  "homepage": "https://github.com/drizzy/code-make/README.md",
+  "homepage": "https://github.com/drizzy/code-make/blob/master/README.md",
   "bugs": {
     "url": "https://github.com/drizzy/code-make/issues"
   },

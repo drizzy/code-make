@@ -1,5 +1,17 @@
 # Change Log
 
+### [v2.1.0](https://github.com/drizzy/code-make/releases/tag/v2.1.0)
+
+> 04 November 2024
+
+### Features
+
+- Icons now display directly without requiring an active workspace.
+- Workspace warning only appears when attempting to create a project.
+- Optimized folder and file checks to avoid unnecessary errors when opening Visual Studio Code.
+- The project creation icon remains a heart, and the play icon now compiles and runs the project.
+- Improved status bar update logic, ensuring icons are always visible.
+
 ### [v2.0.0](https://github.com/drizzy/code-make/releases/tag/v2.0.0)
 
 > 25 December 2023
