@@ -1,5 +1,13 @@
 # Change Log
 
+### [v2.2.1](https://github.com/drizzy/code-make/releases/tag/v2.2.1)
+
+> 08 November 2024
+
+### Note
+
+This release corrects an unintentional versioning error from `v2.2.0` to maintain continuity. This release does not introduce any new features or functionality changes.
+
 ### [v2.1.0](https://github.com/drizzy/code-make/releases/tag/v2.1.0)
 
 > 04 November 2024

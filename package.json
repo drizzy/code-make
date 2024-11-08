@@ -2,7 +2,7 @@
   "name": "code-make",
   "displayName": "Code Make",
   "description": "Code Make is designed to make it easy to create and compile C++ projects using the Make tool.",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "publisher": "drizzy",
   "license": "MIT",
   "icon": "icons/logo.png",
