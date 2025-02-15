@@ -1,5 +1,16 @@
 # Change Log
 
+### [v3.0.0](https://github.com/drizzy/code-make/releases/tag/v3.0.0)
+
+> 15 February 2025
+
+### Features
+
+- Now supports C, C++, Golang, and Java.
+- The Makefile for each programming language is configured to work with all operating systems.
+- The project structure adapts dynamically based on the selected language.
+- Status bar improvements: Icons have been updated for better visual representation and usability. The build button now uses ⚙️ Compile and the run button has a more intuitive icon. ▶ Run
+
 ### [v2.2.1](https://github.com/drizzy/code-make/releases/tag/v2.2.1)
 
 > 08 November 2024
