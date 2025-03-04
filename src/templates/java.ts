@@ -1,40 +1,54 @@
-export const makeJava = `# ================================
+export const folders = [
+'src/main/java/com/example',
+'src/main/resources',
+'src/test/java/com/example',
+'lib',
+'scripts',];
+
+export const main = `package com.example;
+
+public class Main {
+  public static void main(String[] args) {
+    System.out.println("Hello, World from Java!");
+  }
+}`;
+
+export const makefile = `# ================================
 # Makefile for Java project
 # Cross-platform compatibility
 # ================================
 
-# Main class (cambiar según el nombre real del archivo con main())
+# change according to the name of the file to be executed
 MAIN_CLASS := com.example.Main
 
 # Detect OS
 ifeq ($(OS),Windows_NT)
-    TARGET := $(TARGET).exe
-    DETECTED_OS := Windows
+  DETECTED_OS := Windows
 else
-    DETECTED_OS := Unix
+  DETECTED_OS := Unix
 endif
 
 # Detect OS and set correct file extensions and commands
 ifeq ($(OS),Windows_NT)
-    SHELL = cmd.exe
-    MKDIR = if not exist "$(subst /,,$1)" mkdir "$(subst /,,$1)"
-    RMDIR = if exist "$(subst /,,$1)" rmdir /s /q "$(subst /,,$1)"
-    RM = if exist "$(subst /,,$1)" del /f /q
-    FIND = cmd /c "for /r src %%i in (*.java) do @echo %%~fi"
-    CLASSPATH_SEP = ;
+  SHELL = cmd.exe
+  MKDIR = if not exist "$(subst /,,$1)" mkdir "$(subst /,,$1)"
+  RMDIR = if exist "$(subst /,,$1)" rmdir /s /q "$(subst /,,$1)"
+  RM = if exist "$(subst /,,$1)" del /f /q
+  FIND = cmd /c "for /r src %%i in (*.java) do @echo %%~fi"
+  CLASSPATH_SEP = ;
 else
-   	PRINTF = printf
-    SHELL = /bin/sh
-    MKDIR = mkdir -p $1
-    RMDIR = rm -rf $1
-    RM = rm -f $1
-    FIND = find src -name "*.java"
-    CLASSPATH_SEP = :
+  PRINTF = printf
+  SHELL = /bin/sh
+  MKDIR = mkdir -p $1
+  RMDIR = rm -rf $1
+  RM = rm -f $1
+  FIND = find src -name "*.java"
+  CLASSPATH_SEP = :
 
 	RED    := \\033[31m
-    GREEN  := \\033[32m
-    CYAN   := \\033[36m
-    RESET  := \\033[0m
+  GREEN  := \\033[32m
+  CYAN   := \\033[36m
+  RESET  := \\033[0m
 endif
 
 # Compiler and runner
@@ -102,11 +116,3 @@ ifeq ($(DETECTED_OS),Windows)
 else
 	@$(PRINTF) "$(GREEN)Clean completed.$(RESET)\\n"
 endif`;
-
-export const mainJava = `package com.example;
-
-public class Main {
-  public static void main(String[] args) {
-    System.out.println("Hello, World from Java!");
-  }
-}`;

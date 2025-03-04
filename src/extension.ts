@@ -1,14 +1,14 @@
 import * as vscode from 'vscode';
-import { CodeManage } from './CodeManager';
+import { MakefileManager } from './manager/MakefileManager';
 
 /**
  * It registers the commands that are defined in the `package.json` file
  * @param context - This is the context of the extension.
  */
 export function activate(context: vscode.ExtensionContext) {
-  const manager = new CodeManage();
+  const manager = new MakefileManager();
 
-  const createProject: vscode.Disposable = vscode.commands.registerCommand('code-make-create.run', async () => {
+  const create: vscode.Disposable = vscode.commands.registerCommand('code-make-create.run', async () => {
     
     const selectedLanguage = await vscode.window.showQuickPick(
       ['C', 'C++', 'Go', 'Java'],
@@ -42,7 +42,11 @@ export function activate(context: vscode.ExtensionContext) {
     manager.start();
   });
 
-  context.subscriptions.push(createProject, start);
+  const stop: vscode.Disposable = vscode.commands.registerCommand('code-make-stop.run', () => {
+    manager.stop();
+  });
+
+  context.subscriptions.push(create, start, stop);
 }
 
 /**

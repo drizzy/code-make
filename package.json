@@ -2,7 +2,7 @@
   "name": "code-make",
   "displayName": "Code Make",
   "description": "Simplify C, C++, Go, and Java project creation and compilation with Make.",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "publisher": "drizzy",
   "license": "MIT",
   "icon": "icons/logo.png",
@@ -32,19 +32,15 @@
   "tags": [
     "C",
     "C++",
-    "cpp",
     "Go",
-    "Golang",
     "java",
-    "javac",
-    "run",
-    "compiler",
-    "build"
+    "make"
   ],
   "activationEvents": [
     "onStartupFinished",
     "onCommand:code-make-create.run",
-    "onCommand:code-make-start.run"
+    "onCommand:code-make-start.run",
+    "onCommand:code-make-stop.run"
   ],
   "main": "./out/src/extension.js",
   "scripts": {
