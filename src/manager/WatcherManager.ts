@@ -18,14 +18,6 @@ export class WatcherManager {
     this._config   = new ConfigManager();
     this._process  = new ProcessManager();
   }
-
-  public set recompile(value: boolean) {
-    this._recompile = value;
-  }
-
-  public get recompile(): boolean {
-    return this._recompile;
-  }
   
   public updateStatusBar() {
 
@@ -35,17 +27,13 @@ export class WatcherManager {
     }
   
     const projectConfigs = [
-      { type: 'C', dir: 'src', file: 'main.c', extra: ['Makefile'] },
-      { type: 'C++', dir: 'src', file: 'main.cpp', extra: ['Makefile'] },
-      { type: 'Go', dir: 'cmd', file: 'main.go', extra: ['go.mod', 'Makefile'] },
-      { type: 'Java', dir: 'src', file: 'Main.java', extra: ['Makefile'] },
+      { type: 'Go', extra: ['go.mod', 'Makefile'] },
+      { type: 'Other', extra: ['Makefile'] }
     ];
-  
-    const isProjectValid = projectConfigs.some(({ dir, file, extra }) => {
-      const mainFileExists = this._file.findFileRecursive(path.join(this._file.folderPath!, dir), file);
-      const extraFilesExist = extra.every(e => fs.existsSync(path.join(this._file.folderPath!, e)));
-      return mainFileExists && extraFilesExist;
-    });
+    
+    const isProjectValid = projectConfigs.some(({ extra }) => 
+      extra.every(e => fs.existsSync(path.join(this._file.folderPath!, e)))
+    );    
   
     this._config.configureButton(this._process.items.create, '$(gear) Compile', 'Create Project', 'code-make-create.run', '#FF79C6');
     this._config.configureButton(this._process.items.start, '$(play) Run', 'Run Project', 'code-make-start.run', this._recompile ? '#FFD700' : '#89D185');
@@ -99,7 +87,7 @@ export class WatcherManager {
   }
 
   private handleFileChange() {
-    if (!this._process.runningP) {
+    if (!this._process.running) {
       this.markForRecompile();
     }
   }

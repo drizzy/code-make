@@ -21,6 +21,16 @@ export const makefile = `# ================================
 # change according to the name of the file to be executed
 MAIN_CLASS := com.example.Main
 
+# Compiler and runner
+JAVAC := javac
+JAVA := java
+
+# Directories
+BIN := build
+SRC := src
+LIB := lib
+COMPILE_FLAG := $(BIN)/.compiled
+
 # Detect OS
 ifeq ($(OS),Windows_NT)
   DETECTED_OS := Windows
@@ -36,6 +46,8 @@ ifeq ($(OS),Windows_NT)
   RM = if exist "$(subst /,,$1)" del /f /q
   FIND = cmd /c "for /r src %%i in (*.java) do @echo %%~fi"
   CLASSPATH_SEP = ;
+  FILE_FLAG = type nul > $(COMPILE_FLAG)
+  PS = powershell -Command "Write-Host -NoNewline '$(1)' -ForegroundColor $(2); Write-Host '$(3)' -ForegroundColor $(4)"
 else
   PRINTF = printf
   SHELL = /bin/sh
@@ -44,22 +56,12 @@ else
   RM = rm -f $1
   FIND = find src -name "*.java"
   CLASSPATH_SEP = :
-
-	RED    := \\033[31m
-  GREEN  := \\033[32m
-  CYAN   := \\033[36m
-  RESET  := \\033[0m
+	FILE_FLAG = touch $(COMPILE_FLAG)
+define ANSI_COLOR
+$(if $(filter $(1),Red),\\033[31m,$(if $(filter $(1),Green),\\033[32m,$(if $(filter $(1),Cyan),\\033[36m,$(if $(filter $(1),White),\\033[37m,\\033[0m))))
+endef
+  PS = printf "$(call ANSI_COLOR,$(2))$(1)$(call ANSI_COLOR,$(4))$(3)\\033[0m\\n"
 endif
-
-# Compiler and runner
-JAVAC := javac
-JAVA := java
-
-# Directories
-BIN := build
-SRC := src
-LIB := lib
-COMPILE_FLAG := $(BIN)/.compiled
 
 # Find all Java files recursively
 SRCS := $(shell $(FIND))
@@ -71,48 +73,20 @@ CLASSPATH := $(BIN)$(if $(JARS),$(CLASSPATH_SEP)$(subst $(space),$(CLASSPATH_SEP
 # Rule to compile Java files (only if there are changes)
 .PHONY: all
 all: $(BIN)/classes
-
 $(BIN)/classes: $(SRCS) $(JARS)
 	@$(call MKDIR,$(BIN))
-ifeq ($(DETECTED_OS),Windows)
-	@if not exist $(COMPILE_FLAG) powershell -Command "Write-Host -NoNewline 'Compiling Java files... ' -ForegroundColor Cyan; Write-Host '' -ForegroundColor White"
-else
-	@if [ ! -f $(COMPILE_FLAG) ]; then \\
-		$(PRINTF) "$(CYAN)Compiling Java files...$(RESET)\\n"; \\
-	fi
-endif
 	@$(JAVAC) -d $(BIN) -cp "$(CLASSPATH)" $(SRCS)
-ifeq ($(DETECTED_OS),Windows)
-	@if not exist $(COMPILE_FLAG) powershell -Command "Write-Host -NoNewline 'Compilation finished. ' -ForegroundColor Green; Write-Host '' -ForegroundColor White"
-	@type nul > $(COMPILE_FLAG)
-else
-	@if [ ! -f $(COMPILE_FLAG) ]; then \\
-		$(PRINTF) "$(GREEN)Compilation finished.$(RESET)\\n"; \\
-		touch $(COMPILE_FLAG); \\
-	fi
-endif
+	@$(FILE_FLAG)
 
 # Rule to run the program
 .PHONY: run
 run: all
-ifeq ($(DETECTED_OS),Windows)
-	@powershell -Command "Write-Host -NoNewline 'Running: ' -ForegroundColor Cyan; Write-Host '$(MAIN_CLASS)' -ForegroundColor Green"
-else
-	@$(PRINTF) "$(CYAN)Running: $(GREEN)$(MAIN_CLASS)$(RESET)\\n"
-endif
+	@$(call PS,Running:, Cyan, $(MAIN_CLASS), Green)
 	@$(JAVA) -cp "$(CLASSPATH)" $(MAIN_CLASS)
 
 # Rule to clean compiled files
 .PHONY: clean
 clean:
-ifeq ($(DETECTED_OS),Windows)
-	@powershell -Command "Write-Host -NoNewline 'Cleaning build files... ' -ForegroundColor Red; Write-Host '' -ForegroundColor White"
-else
-	@$(PRINTF) "$(RED)Cleaning build files...$(RESET)\\n"
-endif
+	@$(call PS,Cleaning build files:, Red, $(BIN)/$(MAIN_CLASS), Green)
 	@$(call RMDIR,$(BIN))
-ifeq ($(DETECTED_OS),Windows)
-	@powershell -Command "Write-Host -NoNewline 'Clean completed. ' -ForegroundColor Green; Write-Host '' -ForegroundColor White"
-else
-	@$(PRINTF) "$(GREEN)Clean completed.$(RESET)\\n"
-endif`;
+	@$(call PS,Clean completed!:, Red, $(BIN)/$(MAIN_CLASS), Green)`;

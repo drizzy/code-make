@@ -1,5 +1,4 @@
 import * as vscode from 'vscode';
-import * as os from 'os';
 
 export class TerminalManager {
 
@@ -14,22 +13,7 @@ export class TerminalManager {
       });
     }
 
-    const shellPath = vscode.env.shell.toLowerCase();
-    const isWindows = os.platform() === 'win32';
-      
-    let clearCommand: string;
-
-    if (isWindows) {
-      if (shellPath.includes('git') && shellPath.includes('bash.exe')) {
-        clearCommand = 'clear';
-      } else {
-        clearCommand = 'cls';
-      }
-    } else {
-      clearCommand = 'clear';
-    }
-
-    this._terminal.sendText(clearCommand);
+    await vscode.commands.executeCommand('workbench.action.terminal.clear');
 
     this._terminal.show();
 

@@ -2,7 +2,7 @@
   "name": "code-make",
   "displayName": "Code Make",
   "description": "Simplify C, C++, Go, and Java project creation and compilation with Make.",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "publisher": "drizzy",
   "license": "MIT",
   "icon": "icons/logo.png",

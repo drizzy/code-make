@@ -1,5 +1,14 @@
 # Change Log
 
+### [v3.2.0](https://github.com/drizzy/code-make/releases/tag/v3.2.0)
+
+> 11 March 2025
+
+### Features
+
+- More optimized and easier to understand Makefile, excess redundant code removed.
+- Fixed errors when clearing the terminal, now a function from the vscode api is used.
+
 ### [v3.1.0](https://github.com/drizzy/code-make/releases/tag/v3.1.0)
 
 > 03 March 2025

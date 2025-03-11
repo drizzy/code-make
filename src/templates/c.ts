@@ -24,33 +24,6 @@ export const makefile = `# ================================
 # Executable name
 TARGET := my-c-program
 
-# Detect OS
-ifeq ($(OS),Windows_NT)
-  TARGET := $(TARGET).exe
-  DETECTED_OS := Windows
-else
-    DETECTED_OS := Unix
-endif
-
-# Comandos de sistema según el entorno
-ifeq ($(DETECTED_OS),Windows)
-  SHELL = cmd.exe
-  MKDIR = if not exist "$(subst /,,$1)" mkdir "$(subst /,,$1)"
-  RMDIR = if exist "$(subst /,,$1)" rmdir /s /q "$(subst /,,$1)"
-  RM = if exist "$(subst /,,$1)" del /f /q
-else
-  SHELL = /bin/sh
-  PRINTF = printf
-  MKDIR = mkdir -p $1
-  RMDIR = rm -rf $1
-  RM = rm -f $1
-
-  CYAN  := \\033[36m
-  GREEN := \\033[32m
-  RED   := \\033[31m
-  RESET := \\033[0m
-endif
-
 # Compiler
 CC := gcc
 
@@ -59,20 +32,43 @@ BIN := build
 SRC := src
 OBJ := obj
 LIB := lib
-INCLUDE := include
+INC := include
 COMPILE_FLAG := $(BIN)/.compiled
+
+# Detect OS
+ifeq ($(OS),Windows_NT)
+  TARGET := $(TARGET).exe
+  DETECTED_OS := Windows
+else
+  DETECTED_OS := Unix
+endif
+
+# System commands depending on the environment
+ifeq ($(DETECTED_OS),Windows)
+  SHELL = cmd.exe
+  MKDIR = if not exist "$(subst /,,$1)" mkdir "$(subst /,,$1)"
+  RMDIR = if exist "$(subst /,,$1)" rmdir /s /q "$(subst /,,$1)"
+  RM = if exist "$(subst /,,$1)" del /f /q
+  NULL_DEVICE = NUL
+	FILE_FLAG = type nul > $(COMPILE_FLAG)
+	PS = powershell -Command "Write-Host -NoNewline '$(1)' -ForegroundColor $(2); Write-Host '$(3)' -ForegroundColor $(4)"
+else
+  SHELL = /bin/sh
+  MKDIR = mkdir -p $1
+  RMDIR = rm -rf $1
+  RM = rm -f $1
+	FILE_FLAG = touch $(COMPILE_FLAG)
+  NULL_DEVICE = /dev/null
+define ANSI_COLOR
+$(if $(filter $(1),Red),\\033[31m,$(if $(filter $(1),Green),\\033[32m,$(if $(filter $(1),Cyan),\\033[36m,$(if $(filter $(1),White),\\033[37m,\\033[0m))))
+endef
+  PS = printf "$(call ANSI_COLOR,$(2))$(1)$(call ANSI_COLOR,$(4))$(3)\\033[0m\\n"
+endif
 
 # Find source and header files (include both root and subdirectories)
 SRCS := $(wildcard $(SRC)/*.c) $(wildcard $(SRC)/**/*.c)
-HDRS := $(wildcard $(INCLUDE)/*.h) $(wildcard $(INCLUDE)/**/*.h)
+HDRS := $(wildcard $(INC)/*.h) $(wildcard $(INC)/**/*.h)
 OBJS := $(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS))
-
-# Detect system and set NULL_DEVICE correctly
-ifeq ($(OS),Windows_NT)
-  NULL_DEVICE := NUL
-else
-  NULL_DEVICE := /dev/null
-endif
 
 # Configure PKG_CONFIG
 PKG_CONFIG := $(shell command -v pkg-config 2>$(NULL_DEVICE))
@@ -95,65 +91,31 @@ LIBS_EXTRA ?=
 LFLAGS := $(PKG_LIBS) $(LIBS_STATIC) $(LIBS_EXTRA)
 
 # Compiler flags (includes headers and compiler flags)
-CFLAGS := -Wall -I$(INCLUDE) $(PKG_FLAGS)
+CFLAGS := -Wall -I$(INC) $(PKG_FLAGS)
 
 # Rule to compile the project (checks .compiled)
 .PHONY: all
 all: $(BIN)/$(TARGET)
 $(BIN)/$(TARGET): $(OBJS)
 	@$(call MKDIR,$(BIN))
-ifeq ($(DETECTED_OS),Windows)
-	@if not exist $(COMPILE_FLAG) powershell -Command "Write-Host -NoNewline 'Linking... ' -ForegroundColor Cyan; Write-Host '' -ForegroundColor White"
-else
-	@if [ ! -f $(COMPILE_FLAG) ]; then \\
-		$(PRINTF) "$(CYAN)Linking...$(RESET)\\n"; \\
-	fi
-endif
 	@$(CC) $(OBJS) $(LFLAGS) -o $@
-ifeq ($(DETECTED_OS),Windows)
-	@if not exist $(COMPILE_FLAG) powershell -Command "Write-Host -NoNewline 'Build complete! ' -ForegroundColor Green; Write-Host '' -ForegroundColor White"
-	@type nul > $(COMPILE_FLAG)
-else
-	@if [ ! -f $(COMPILE_FLAG) ]; then \\
-    $(PRINTF) "$(GREEN)Build complete!$(RESET)\\n"; \\
-		touch $(COMPILE_FLAG); \\
-	fi
-endif
-
+	@$(FILE_FLAG)
+	
 # Rule to create object files
 $(OBJ)/%.o: $(SRC)/%.c $(HDRS)
 	@$(call MKDIR,$(dir $@))
-ifeq ($(DETECTED_OS),Windows)
-	@if not exist $(COMPILE_FLAG) powershell -Command "Write-Host -NoNewline 'Compiling: ' -ForegroundColor Cyan; Write-Host '$<' -ForegroundColor Green"
-else
-	@if [ ! -f $(COMPILE_FLAG) ]; then \\
-	  $(PRINTF) "$(CYAN)Compiling: $(GREEN)$<$(RESET)\\n"; \\
-	fi
-endif
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 # Rule to run the program
 .PHONY: run
 run: all
-ifeq ($(DETECTED_OS),Windows)
-	@powershell -Command "Write-Host -NoNewline 'Running: ' -ForegroundColor Cyan; Write-Host '$(BIN)/$(TARGET)' -ForegroundColor Green"
-else
-	@$(PRINTF) "$(CYAN)Running: $(GREEN)$(BIN)/$(TARGET) $(RESET)\\n";
-endif
+	@$(call PS,Running:, Cyan, $(TARGET), Green)
 	@$(BIN)/$(TARGET)
 
 # Rule to clean compiled files
 .PHONY: clean
 clean:
-ifeq ($(DETECTED_OS),Windows)
-	@powershell -Command "Write-Host -NoNewline 'Cleaning build files... ' -ForegroundColor Red; Write-Host '' -ForegroundColor White"
-else
-	@$(PRINTF) "$(RED)Cleaning build files...$(RESET)\\n";
-endif
+	@$(call PS,Cleaning build files:, Red, $(BIN)/$(TARGET), Green)
 	@$(call RMDIR,$(BIN))
 	@$(call RMDIR,$(OBJ))
-ifeq ($(DETECTED_OS),Windows)
-	@powershell -Command "Write-Host -NoNewline 'Clean completed! ' -ForegroundColor Green; Write-Host '' -ForegroundColor White"
-else
-	@$(PRINTF) "$(GREEN)Clean completed!$(RESET)\\n";
-endif`;
+	@$(call PS,Clean completed!:, Red, $(BIN)/$(TARGET), Green)`;

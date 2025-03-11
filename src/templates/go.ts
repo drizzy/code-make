@@ -4,7 +4,7 @@ export const folders = [
 'internal/app',
 'internal/middleware',
 'internal/database',
-'internal/routes',
+'internal/repository',
 'pkg/utils',
 'scripts',
 'test',];
@@ -25,6 +25,11 @@ export const makefile = `# ================================
 # Executable name
 TARGET := my-go-program
 
+# Directories
+CMD_DIR := cmd/app
+BIN := build
+COMPILE_FLAG := $(BIN)/.compiled
+
 # Detect OS
 ifeq ($(OS),Windows_NT)
   TARGET := $(TARGET).exe
@@ -39,71 +44,36 @@ ifeq ($(DETECTED_OS),Windows)
   MKDIR = if not exist "$(subst /,,$1)" mkdir "$(subst /,,$1)"
   RMDIR = if exist "$(subst /,,$1)" rmdir /s /q "$(subst /,,$1)"
   RM = if exist "$(subst /,,$1)" del /f /q
+	FILE_FLAG = type nul > $(COMPILE_FLAG)
+  PS = powershell -Command "Write-Host -NoNewline '$(1)' -ForegroundColor $(2); Write-Host '$(3)' -ForegroundColor $(4)"
 else
   SHELL = /bin/sh
   MKDIR = mkdir -p $1
   RMDIR = rm -rf $1
   RM = rm -f $1
-    
-  CYAN  := \\033[36m
-  GREEN := \\033[32m
-  RED   := \\033[31m
-  RESET := \\033[0m
+	FILE_FLAG = touch $(COMPILE_FLAG)
+define ANSI_COLOR
+$(if $(filter $(1),Red),\\033[31m,$(if $(filter $(1),Green),\\033[32m,$(if $(filter $(1),Cyan),\\033[36m,$(if $(filter $(1),White),\\033[37m,\\033[0m))))
+endef
+  PS = printf "$(call ANSI_COLOR,$(2))$(1)$(call ANSI_COLOR,$(4))$(3)\\033[0m\\n"
 endif
-
-# Directories
-CMD_DIR := cmd/app
-BIN := build
-COMPILE_FLAG := $(BIN)/.compiled
-
-# Commands
-BUILD_CMD := go build -o $(BIN)/$(TARGET) ./$(CMD_DIR)
-RUN_CMD := $(BIN)/$(TARGET)
-CLEAN_CMD := $(call RMDIR,$(BIN))
 
 # Rule to build the Go project
 .PHONY: build
 build:
 	@$(call MKDIR,$(BIN))
-ifeq ($(DETECTED_OS),Windows)
-	@if not exist $(COMPILE_FLAG) powershell -Command "Write-Host -NoNewline 'Building Go program... ' -ForegroundColor Cyan; Write-Host '' -ForegroundColor White"
-else
-	@if [ ! -f $(COMPILE_FLAG) ]; then \\
-		printf "$(CYAN)Building Go program...$(RESET)\\n"; \\
-	fi
-endif
-	@$(BUILD_CMD)
-ifeq ($(DETECTED_OS),Windows)
-	@if not exist $(COMPILE_FLAG) powershell -Command "Write-Host -NoNewline 'Build complete! ' -ForegroundColor Green; Write-Host '' -ForegroundColor White"
-	@type nul > $(COMPILE_FLAG)
-else
-	@if [ ! -f $(COMPILE_FLAG) ]; then \\
-    printf "$(GREEN)Build complete!$(RESET)\\n"; \\
-		touch $(COMPILE_FLAG); \\
-	fi
-endif
+	@go build -o $(BIN)/$(TARGET) ./$(CMD_DIR)
+	@$(FILE_FLAG)
 
 # Rule to run the program
 .PHONY: run
 run: build
-ifeq ($(DETECTED_OS),Windows)
-	@powershell -Command "Write-Host -NoNewline 'Running: ' -ForegroundColor Cyan; Write-Host '$(RUN_CMD)' -ForegroundColor Green"
-else
-	@printf "$(CYAN)Running: $(GREEN)$(RUN_CMD)$(RESET)\\n";
-endif
-	@$(RUN_CMD)
-
+	@$(call PS,Running:, Cyan, $(TARGET), Green)
+	@$(BIN)/$(TARGET)
+	
 # Rule to clean compiled files
 .PHONY: clean
 clean:
-ifeq ($(DETECTED_OS),Windows)
-	@powershell -Command "Write-Host -NoNewline 'Cleaning build files... ' -ForegroundColor Red; Write-Host '' -ForegroundColor White"
-else
-	@printf "$(RED)Cleaning build files...$(RESET)\\n";
-endif
-	@$(CLEAN_CMD)
-ifeq ($(DETECTED_OS),Windows)
-	@powershell -Command "Write-Host -NoNewline 'Clean completed! ' -ForegroundColor Green; Write-Host '' -ForegroundColor White"
-else
-	@printf "$(GREEN)Clean completed!$(RESET)\\n";
-endif`;
+	@$(call PS,Cleaning build files:, Red, $(BIN)/$(TARGET), Green)
+	@$(call RMDIR,$(BIN))
+	@$(call PS,Clean completed!:, Red, $(BIN)/$(TARGET), Green)`;
