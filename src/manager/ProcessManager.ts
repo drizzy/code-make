@@ -20,7 +20,7 @@ export class ProcessManager {
     return this._items;
   }
 
-  public get runningP(): boolean {
+  public get running(): boolean {
     return this._isProcessRunning;
   }
 

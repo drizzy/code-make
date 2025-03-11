@@ -74,12 +74,7 @@ export class MakefileManager {
       vscode.window.showErrorMessage('Please open a project folder first.');
       return;
     }
-  
-    if (this._watcher.recompile) {
-      this._terminal.runCommand('make');
-      this._watcher.recompile = false;
-    }
-  
+    
     this._isRunning = true;
     this._watcher.updateStatusBar();
     this._terminal.runCommand('make run');
@@ -96,9 +91,10 @@ export class MakefileManager {
       if (this._terminal) {
         this._terminal.dispose;
       }
-      this._watcher.updateStatusBar();
     } catch (e) {
       vscode.window.showErrorMessage('Failed to stop project.');
+    } finally {
+      this._watcher.updateStatusBar();
     }
   }
   
