@@ -1,5 +1,18 @@
 # Change Log
 
+### [v3.3.0](https://github.com/drizzy/code-make/releases/tag/v3.3.0)
+
+> 5 May 2025
+
+### Features
+
+- Updated extension icon for a more modern look.
+- Added new commands: Create Project, Run Project, and Stop Execution.
+- Default keyboard shortcuts added:
+  - `Ctrl+Alt+C` to create a project.
+  - `Ctrl+Alt+R` to run the project.
+  - `Ctrl+Alt+S` to stop execution.
+
 ### [v3.2.0](https://github.com/drizzy/code-make/releases/tag/v3.2.0)
 
 > 11 March 2025

@@ -2,12 +2,12 @@
   "name": "code-make",
   "displayName": "Code Make",
   "description": "Simplify C, C++, Go, and Java project creation and compilation with Make.",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "publisher": "drizzy",
   "license": "MIT",
-  "icon": "icons/logo.png",
+  "icon": "icon/makefile.png",
   "engines": {
-    "vscode": "^1.71.0"
+    "vscode": "^1.75.0"
   },
   "repository": {
     "type": "git",
@@ -19,7 +19,7 @@
   },
   "author": {
     "name": "Willow P.",
-    "email": "hello@drizzy.dev",
+    "email": "willow@drizzy.dev",
     "url": "https://drizzy.dev"
   },
   "sponsor": {
@@ -37,11 +37,38 @@
     "make"
   ],
   "activationEvents": [
-    "onStartupFinished",
-    "onCommand:code-make-create.run",
-    "onCommand:code-make-start.run",
-    "onCommand:code-make-stop.run"
+    "onStartupFinished"
   ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "code-make-create.run",
+        "title": "Code Make: Create Project"
+      },
+      {
+        "command": "code-make-start.run",
+        "title": "Code Make: Run Project"
+      },
+      {
+        "command": "code-make-stop.run",
+        "title": "Code Make: Stop Execution"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "code-make-create.run",
+        "key": "ctrl+alt+c"
+      },
+      {
+        "command": "code-make-start.run",
+        "key": "ctrl+alt+r"
+      },
+      {
+        "command": "code-make-stop.run",
+        "key": "ctrl+alt+s"
+      }
+    ]
+  },
   "main": "./out/src/extension.js",
   "scripts": {
     "vscode:prepublish": "npm run compile",
@@ -55,7 +82,7 @@
     "@types/lodash": "^4.14.202",
     "@types/mocha": "^10.0.6",
     "@types/node": "18.x",
-    "@types/vscode": "^1.54.0",
+    "@types/vscode": "^1.75.0",
     "@typescript-eslint/eslint-plugin": "^6.13.1",
     "@typescript-eslint/parser": "^6.13.1",
     "@vscode/test-cli": "^0.0.4",
