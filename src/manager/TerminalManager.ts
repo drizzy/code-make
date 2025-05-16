@@ -21,11 +21,10 @@ export class TerminalManager {
 
   }
 
-  public get dispose() {
+  public dispose(): void {
     if (this._terminal) {
-      return this._terminal.dispose();
+      this._terminal.dispose();
+      this._terminal = undefined;
     }
-    return undefined;
   }
-  
 }

@@ -1,5 +1,14 @@
 # Change Log
 
+### [v3.3.1](https://github.com/drizzy/code-make/releases/tag/v3.3.1)
+
+> 16 May 2025
+
+### Fixes
+
+- Fixed stop button bug when reloading vscode
+- Fixed error when changing the name of the executable in Makefile
+
 ### [v3.3.0](https://github.com/drizzy/code-make/releases/tag/v3.3.0)
 
 > 5 May 2025

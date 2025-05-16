@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import * as os from 'os';
 import * as path from 'path';
 import { FileManager } from '../manager/FileManager';
 import { ConfigManager } from '../manager/ConfigManager';
@@ -11,7 +12,6 @@ export class MakefileManager {
   private _config: ConfigManager;
   private _terminal: TerminalManager;
   private _watcher: WatcherManager;
-  private _isRunning: boolean = false;
 
   constructor() {
     this._file     = new FileManager();
@@ -75,27 +75,66 @@ export class MakefileManager {
       return;
     }
     
-    this._isRunning = true;
     this._watcher.updateStatusBar();
     this._terminal.runCommand('make run');
   }
 
-  public stop() {
-    if (!this._isRunning) {
+  public async stop() {
+    const programName = this._file.getProgramNameFromMakefile();
+
+    if (!programName) {
+      vscode.window.showErrorMessage('The name of the program to stop could not be determined.');
       return;
     }
-  
-    this._isRunning = false;
-  
+
     try {
-      if (this._terminal) {
-        this._terminal.dispose;
+      const isWin = os.platform() === 'win32';
+      const psList = (await import('ps-list')).default;
+      const processes = await psList();
+      let processFound = false;
+
+      for (const p of processes) {
+        const nameMatch = p.name === programName || p.name === `${programName}.exe`;
+        const cmdMatch = p.cmd && p.cmd.includes(programName);
+
+        if (nameMatch || cmdMatch) {
+          processFound = true;
+          try {
+            process.kill(p.pid, isWin ? undefined : 'SIGKILL');
+            console.log(`Killed process: ${p.name} (PID: ${p.pid})`);
+          } catch (killError) {
+            console.error(`Failed to kill process ${p.pid}:`, killError);
+          }
+        }
       }
+
+      const orphanedTerminals = vscode.window.terminals.filter(t => t.name === 'CodeMake');
+      for (const terminal of orphanedTerminals) {
+        try {
+          terminal.dispose();
+          console.log(`Disposed orphaned terminal: ${terminal.name}`);
+        } catch (disposeError) {
+          console.error('Failed to dispose terminal:', disposeError);
+        }
+      }
+
+      if (this._terminal) {
+        try {
+          this._terminal.dispose();
+        } catch (disposeError) {
+          console.error('Failed to dispose current terminal:', disposeError);
+        }
+      }
+
+      if (!processFound) {
+        vscode.window.showWarningMessage('No running process was found to stop.');
+      }
+
     } catch (e) {
-      vscode.window.showErrorMessage('Failed to stop project.');
+      const error = e as Error;
+      vscode.window.showErrorMessage(`Failed to stop process: ${error.message}`);
     } finally {
-      this._watcher.updateStatusBar();
+      this._watcher?.updateStatusBar();
     }
   }
-  
 }

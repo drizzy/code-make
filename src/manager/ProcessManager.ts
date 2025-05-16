@@ -1,6 +1,4 @@
 import * as vscode from 'vscode';
-import * as process from 'child_process';
-import * as os from 'os';
 import { StatusBarItems } from '../utils/types';
 
 export class ProcessManager {
@@ -24,44 +22,33 @@ export class ProcessManager {
     return this._isProcessRunning;
   }
 
-  private isProcessRunning(processName: string): boolean {
-  
-    try {
+  private async isProcessRunning(processName: string): Promise<boolean> {
+    const psList = (await import('ps-list')).default;
 
-      const isWindows = os.platform() === "win32";
-        
-      let command = isWindows ? `tasklist /FI "IMAGENAME eq ${processName}.exe"` : `ps aux`;
-
-      const output = process.execSync(command, { stdio: 'pipe' }).toString();
-
-      const lines = output.split('\n');
-      for (const line of lines) {
-        if (line.includes(processName) && !line.includes('grep')) {
-          return true;
-        }
-      }
-      return false;
-    } catch (e) {
-      return false;
-    }
+    const processes = await psList();
+    return processes.some(p => 
+      p.name === processName || p.name === `${processName}.exe`
+    );
   }
 
-  public monitorProcess(processName: string) {
-
+  public async monitorProcess(processName: string) {
     if (!this._isProcessRunning) {
-      this.toggleProcessButtons(this.isProcessRunning(processName));
+      const running = await this.isProcessRunning(processName);
+      this.toggleProcessButtons(running);
+      this._isProcessRunning = running;
     }
 
     if (this._isRunningCheckInterval) {
       clearInterval(this._isRunningCheckInterval);
     }
 
-    this._isRunningCheckInterval = setInterval(() => {
-      const isRunning = this.isProcessRunning(processName);
+    this._isRunningCheckInterval = setInterval(async () => {
+      const isRunning = await this.isProcessRunning(processName);
       if (isRunning !== this._isProcessRunning) {
         this.toggleProcessButtons(isRunning);
+        this._isProcessRunning = isRunning;
       }
-    }, 1000);
+    }, 500);
   }
   
   private toggleProcessButtons(isRunning: boolean) {
