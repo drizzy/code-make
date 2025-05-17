@@ -2,7 +2,7 @@
   "name": "code-make",
   "displayName": "Code Make",
   "description": "Simplify C, C++, Go, and Java project creation and compilation with Make.",
-  "version": "3.3.1",
+  "version": "3.3.2",
   "publisher": "drizzy",
   "license": "MIT",
   "icon": "icon/makefile.png",
@@ -90,7 +90,9 @@
     "eslint": "^8.54.0",
     "glob": "^11.0.1",
     "lodash": "^4.17.21",
-    "ps-list": "^8.1.1",
     "typescript": "^5.3.2"
+  },
+  "dependencies": {
+    "ps-list": "^8.1.1"
   }
 }

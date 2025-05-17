@@ -1,5 +1,13 @@
 # Change Log
 
+### [v3.3.2](https://github.com/drizzy/code-make/releases/tag/v3.3.2)
+
+> 17 May 2025
+
+### Fixes
+
+- Fixed missing `ps-list` in production build by moving it from `devDependencies` to `dependencies`
+
 ### [v3.3.1](https://github.com/drizzy/code-make/releases/tag/v3.3.1)
 
 > 16 May 2025

@@ -48,7 +48,7 @@ export class ProcessManager {
         this.toggleProcessButtons(isRunning);
         this._isProcessRunning = isRunning;
       }
-    }, 500);
+    }, 1000);
   }
   
   private toggleProcessButtons(isRunning: boolean) {
